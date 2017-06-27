@@ -7,7 +7,6 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:mvvm="http://prismlibrary.com/"
         xmlns:local="clr-namespace:ConnpassReportGenerator.ViewModels"
-        
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
@@ -38,8 +37,9 @@
             <TextBlock>Output</TextBlock>
             <TextBox Text="{Binding ArticleContent.Value}" AcceptsReturn="True" IsReadOnly="True" TextWrapping="WrapWithOverflow"></TextBox>
         </StackPanel>
-        <Button Command="{Binding CopyArticleContentCommand}" Content="Copy" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Style="{DynamicResource MaterialDesignToolForegroundButton}"/>
-        <Button Command="{Binding TranslateCommand}" Content="Translate" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignToolForegroundButton}"/>
+        <Button Command="{Binding CopyArticleContentCommand}" Content="Copy" ToolTip="Copy" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Style="{DynamicResource MaterialDesignToolForegroundButton}"/>
+        <Button Command="{Binding TranslateCommand}" Content="Translate" ToolTip="Translate" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignToolForegroundButton}"/>
+        <Button Command="{Binding SwitchTagView}" Content="Help" ToolTip="View Enable Tags" Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Right" Style="{DynamicResource MaterialDesignToolForegroundButton}"/>
         <Button Command="{Binding OpenTemplateFileFromLocal}" ToolTip="Open Template File" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Style="{DynamicResource MaterialDesignFloatingActionDarkButton}">
             <Viewbox Width="36" Height="36">
                 <Canvas Width="24" Height="24">
@@ -47,5 +47,44 @@
                 </Canvas>
             </Viewbox>
         </Button>
+        <materialDesign:DialogHost Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2" IsOpen="{Binding IsOpenTagView.Value}">
+            <materialDesign:DialogHost.DialogContent>
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Background="{DynamicResource PrimaryHueDarkBrush}">
+                        <TextBlock Text="タグ一覧" VerticalAlignment="Center" Foreground="White" TextAlignment="Center"/>
+                        <Button Command="{Binding SwitchTagView}" ToolTip="Close" Style="{DynamicResource MaterialDesignToolForegroundButton}">
+                            <Viewbox Width="24" Height="24">
+                                <Canvas Width="24" Height="24">
+                                    <Path Data="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" Fill="Red" />
+                                </Canvas>
+                            </Viewbox>
+                        </Button>
+                    </StackPanel>
+                    <ListView ItemsSource="{Binding TagCollection}" SelectedItem="{Binding SelectedTag}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding StringFormat=\{{{0}}\}}" VerticalAlignment="Center"/>
+                                    <Button Command="{Binding AddTag, RelativeSource={RelativeSource AncestorType=Window}}" ToolTip="Add Tag" Style="{DynamicResource MaterialDesignToolForegroundButton}">
+                                        <Viewbox Width="18" Height="18">
+                                            <Canvas Width="24" Height="24">
+                                                <Path Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" Fill="Black" />
+                                            </Canvas>
+                                        </Viewbox>
+                                    </Button>
+                                    <Button ToolTip="Copy Tag" Style="{DynamicResource MaterialDesignToolForegroundButton}">
+                                        <Viewbox Width="18" Height="18">
+                                            <Canvas Width="24" Height="24">
+                                                <Path Data="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" Fill="Black" />
+                                            </Canvas>
+                                        </Viewbox>
+                                    </Button>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+            </materialDesign:DialogHost.DialogContent>
+        </materialDesign:DialogHost>
     </Grid>
 </Window>

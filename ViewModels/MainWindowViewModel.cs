@@ -5,7 +5,11 @@ using ConnpassReportGenerator.Translator;
 using Prism.Mvvm;
 using Reactive.Bindings;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Reactive.Linq;
+using System.Windows.Documents;
+using Reactive.Bindings.Notifiers;
 
 namespace ConnpassReportGenerator.ViewModels
 {
@@ -17,11 +21,17 @@ namespace ConnpassReportGenerator.ViewModels
         private readonly IArticleTemplateEngine _articleTemplateEngine;
         public ReactiveProperty<string> ConnpassUrl { get; set; } = new ReactiveProperty<string>("");
         public ReactiveProperty<string> TemplateContent { get; set; } = new ReactiveProperty<string>("");
-        public ReactiveProperty<string> ArticleContent { get; set; } = new ReactiveProperty<string>("");
+        public ReactiveProperty<string> ArticleContent { get; set; }
+        public ReactiveProperty<string> SelectedTag { get; set; } = new ReactiveProperty<string>("");
+        public BooleanNotifier IsOpenTagView { get; set; } = new BooleanNotifier(false);
+        public List<string> TagCollection { get; set; } = Model.ArticleData.PropertyList();
         public ReactiveProperty<ArticleData> ArticleData { get; set; }
         public ReactiveCommand OpenTemplateFileFromLocal { get; set; } = new ReactiveCommand();
         public ReactiveCommand CopyArticleContentCommand { get; set; } = new ReactiveCommand();
         public ReactiveCommand TranslateCommand { get; set; } = new ReactiveCommand();
+        public ReactiveCommand SwitchTagView { get; set; } = new ReactiveCommand();
+        public ReactiveCommand CopyTag { get; set; } = new ReactiveCommand();
+        public ReactiveCommand AddTag { get; set; } = new ReactiveCommand();
         public MainWindowViewModel(IConnpassClient connpassClient, IFilePickerService filePickerService, IClipBoardService clipBoardService, IArticleTemplateEngine articleTemplateEngine)
         {
             _connpassClient = connpassClient;
@@ -43,6 +53,12 @@ namespace ConnpassReportGenerator.ViewModels
             TemplateContent = _filePickerService.FileContent;
 
             OpenTemplateFileFromLocal.Subscribe(() => _filePickerService.ShowFilePicker());
+
+            SwitchTagView.Subscribe(() => IsOpenTagView.SwitchValue());
+
+            CopyTag.Subscribe(() => _clipBoardService.CopyToClipBoard($"{{{SelectedTag.Value}}}"));
+
+            AddTag.Subscribe(() => TemplateContent.Value += $"{{{SelectedTag.Value}}}");
         }
     }
 }
