@@ -39,7 +39,7 @@
         </StackPanel>
         <Button Command="{Binding CopyArticleContentCommand}" Content="Copy" ToolTip="Copy" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Style="{DynamicResource MaterialDesignToolForegroundButton}"/>
         <Button Command="{Binding TranslateCommand}" Content="Translate" ToolTip="Translate" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignToolForegroundButton}"/>
-        <Button Command="{Binding SwitchTagView}" Content="Help" ToolTip="View Enable Tags" Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Right" Style="{DynamicResource MaterialDesignToolForegroundButton}"/>
+        <Button Visibility="Hidden" Command="{Binding SwitchTagView}" Content="Help" ToolTip="View Enable Tags" Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Right" Style="{DynamicResource MaterialDesignToolForegroundButton}"/>
         <Button Command="{Binding OpenTemplateFileFromLocal}" ToolTip="Open Template File" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Style="{DynamicResource MaterialDesignFloatingActionDarkButton}">
             <Viewbox Width="36" Height="36">
                 <Canvas Width="24" Height="24">
