@@ -10,7 +10,7 @@
             {
                 var propertyName = info.Name;
                 var dataPropertyInfo = data.GetType().GetProperty(propertyName);
-                if (dataPropertyInfo == null) return "";
+                if (dataPropertyInfo == null) break;
                 var propertyValue = (string)dataPropertyInfo.GetValue(data, null);
                 templateText = templateText.Replace($"{{{propertyName}}}", propertyValue);
             };
