@@ -55,9 +55,20 @@ namespace ConnpassReportGenerator.DataStore
 
             var dateAndTime = $"{ymd} {startTime} - {endTime}";
 
-            var meetupDescription = doc.QuerySelector("#editor_area").TextContent.Replace(" ","").Substring(0,256);
+            var meetupDescription = doc.QuerySelector("#editor_area").TextContent.Replace(" ", "").Substring(0, 256);
 
-            return new ArticleData() { Title = title, MemberCount = memberCount.ToString(), TextURL = textUrl, DateAndTime = dateAndTime, MeetupDescription = meetupDescription, MeetupURL = URL};
+            return new ArticleData()
+            {
+                Title = title,
+                MemberCount = memberCount.ToString(),
+                DateAndTime = dateAndTime,
+                MeetupDescription = meetupDescription,
+                URL = new ArticleData.Url()
+                {
+                    MeetupURL = URL,
+                    TextURL = textUrl
+                }
+            };
         }
     }
 }
