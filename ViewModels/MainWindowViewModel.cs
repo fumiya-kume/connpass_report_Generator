@@ -44,7 +44,7 @@ namespace ConnpassReportGenerator.ViewModels
             ArticleData = _connpassClient.Article;
 
             ArticleContent = TemplateContent.Merge(TranslateCommand)
-                .Where(s => ArticleData != null || !string.IsNullOrWhiteSpace(TemplateContent.Value) || string.IsNullOrWhiteSpace(ConnpassUrl.Value))
+                //.Where(s => ArticleData != null && !string.IsNullOrWhiteSpace(TemplateContent.Value) && string.IsNullOrWhiteSpace(ConnpassUrl.Value))
                 .Select(s => _articleTemplateEngine.ReplaceArticleData(TemplateContent.Value, ArticleData.Value))
                 .ToReactiveProperty();
 
