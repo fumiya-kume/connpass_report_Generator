@@ -6,9 +6,7 @@ using Prism.Mvvm;
 using Reactive.Bindings;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Reactive.Linq;
-using System.Windows.Documents;
 using Reactive.Bindings.Notifiers;
 
 namespace ConnpassReportGenerator.ViewModels

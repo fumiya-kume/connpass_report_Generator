@@ -50,10 +50,10 @@ namespace ConnpassReportGenerator.DataStore
             var textUrl = URL + "/presentation/";
 
             var ymd = doc.QuerySelector(".ymd").InnerHtml;
-            var StartTime = doc.QuerySelector(".hi").InnerHtml;
-            var EndTime = doc.QuerySelector(".dtend").TextContent.Trim();
+            var startTime = doc.QuerySelector(".hi").InnerHtml;
+            var endTime = doc.QuerySelector(".dtend").TextContent.Trim();
 
-            var dateAndTime = $"{ymd} {StartTime} - {EndTime}";
+            var dateAndTime = $"{ymd} {startTime} - {endTime}";
 
             var meetupDescription = doc.QuerySelector("#editor_area").TextContent.Replace(" ", "").Substring(0, 256);
 
