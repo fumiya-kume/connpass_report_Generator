@@ -25,22 +25,14 @@ namespace ConnpassReportGenerator.Translator
         private string GetPropertyFromIdentify<T>(string TagName, T data)
         {
             var dataType = (object)data;
-            try
-            {
 
-                var ClassNames = GetClasses(TagName);
-                foreach (var ClassName in ClassNames)
-                {
-                    dataType = dataType.GetType().GetProperty(ClassName).GetValue(data);
-                    if (dataType == null) return null;
-                }
-                var PropertyName = GetPropertyName(TagName);
-            }
-            catch (NullReferenceException e)
+            var ClassNames = GetClasses(TagName);
+            foreach (var ClassName in ClassNames)
             {
-                return "";
-                throw;
+                dataType = dataType.GetType().GetProperty(ClassName).GetValue(data);
+                if (dataType == null) return null;
             }
+            var PropertyName = GetPropertyName(TagName);
             return dataType.GetType().GetProperty(PropertyName).GetValue(dataType) as string;
         }
 
