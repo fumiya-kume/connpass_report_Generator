@@ -51,15 +51,6 @@ namespace ConnpassReportGenerator.Test
                 Assert.AreEqual(resultFirstText, TagCollection.First());
                 Assert.AreEqual(resultSecoundText, TagCollection[1]);
             }
-
-            [TestCase("{URL.MeetupURL}", "URL", "MeetupURL")]
-            public static void タグから1つのクラスとプロパティ名を取得するテスト(string TemplateText, string ExpectedClassName, string ExpectedPropertyName)
-            {
-                var templateEngine = new ArticleTemplateEngine();
-                Assert.NotNull((templateEngine.AsDynamic().GetClasses(TemplateText) as List<string>));
-                Assert.AreEqual(ExpectedClassName, (templateEngine.AsDynamic().GetClasses(TemplateText) as List<string>)[0]);
-                Assert.AreEqual(ExpectedPropertyName, (templateEngine.AsDynamic().GetPropertyName(TemplateText) as string));
-            }
         }
 
         public static class パスからクラスのプロパティの値を吊り上げるテスト
