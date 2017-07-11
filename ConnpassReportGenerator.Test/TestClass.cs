@@ -88,7 +88,8 @@ namespace ConnpassReportGenerator.Test
             [TestCase("{Title}","タイトル")]
             [TestCase("{URL.MeetupURL}", "http://www/Meetup.com")]
             [TestCase("{Title} {MemberCount}", "タイトル 20")]
-
+            [TestCase("Hello World","Hello World")]
+            [TestCase("{Hello}","{Hello}")]
             public static void 変換の正常系のテスト(string TemplateText, string ExpectedValue)
             {
                 var templateEngine = new ArticleTemplateEngine();

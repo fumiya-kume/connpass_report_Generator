@@ -29,11 +29,12 @@ namespace ConnpassReportGenerator.Translator
             var ClassNames = GetClasses(TagName);
             foreach (var ClassName in ClassNames)
             {
-                dataType = dataType.GetType().GetProperty(ClassName).GetValue(data);
+                dataType = dataType.GetType().GetProperty(ClassName)?.GetValue(data);
                 if (dataType == null) return null;
             }
             var PropertyName = GetPropertyName(TagName);
-            return dataType.GetType().GetProperty(PropertyName).GetValue(dataType) as string;
+
+            return dataType.GetType().GetProperty(PropertyName)?.GetValue(dataType) as string;
         }
 
         private List<string> TagStringCollection(string templateText)
@@ -46,7 +47,7 @@ namespace ConnpassReportGenerator.Translator
             }
             return Tags;
         }
-
+        
         private List<string> IdentifyList(string TagName) => TagName.Split('.').Select(s => s.Replace(".", "").Replace("{", "").Replace("}", "")).Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
 
         private List<string> GetClasses(string TagName) => IdentifyList(TagName).Take(IdentifyList(TagName).Count() - 1).ToList();
