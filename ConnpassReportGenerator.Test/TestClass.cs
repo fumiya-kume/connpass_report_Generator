@@ -32,7 +32,7 @@ namespace ConnpassReportGenerator.Test
             public static void _1つのタグを抜き出すテスト(string TemplateText, string resultText)
             {
                 var templateEngine = new ArticleTemplateEngine();
-                var TagCollection = (templateEngine.AsDynamic().TagStringCollection(TemplateText) as List<string>);
+                var TagCollection = ArticleTemplateEngine.TagStringCollection(TemplateText);
                 Assert.NotNull(TagCollection);
                 Assert.AreEqual(resultText, TagCollection.First());
             }
@@ -41,10 +41,10 @@ namespace ConnpassReportGenerator.Test
             public static void _２つのタグを抜き出すテスト(string TemplateText, string resultFirstText, string resultSecoundText)
             {
                 var templateEngine = new ArticleTemplateEngine();
-                var TagCollection = (templateEngine.AsDynamic().TagStringCollection(TemplateText) as List<string>);
+                var TagCollection = ArticleTemplateEngine.TagStringCollection(TemplateText);
                 Assert.NotNull(TagCollection);
                 Assert.AreEqual(resultFirstText, TagCollection.First());
-                Assert.AreEqual(resultSecoundText, TagCollection[1]);
+                Assert.AreEqual(resultSecoundText, TagCollection.ToList()[1]);
             }
         }
 
@@ -54,8 +54,8 @@ namespace ConnpassReportGenerator.Test
             public static void プロパティの名前からプロパティの値を吊り上げる(string path, string ExpectedValue)
             {
                 var templateEngine = new ArticleTemplateEngine();
-                var propertyinfo = templateEngine.AsDynamic().GetPropertyFromIdentify(path, DemoData()) as string;
-                Assert.NotNull(propertyinfo);
+                var tags = ArticleTemplateEngine.IdentifyList(path);
+                var propertyinfo = ArticleTemplateEngine.GetPropertyFromIdentify(tags, DemoData());
                 Assert.AreEqual(ExpectedValue, propertyinfo);
             }
 
@@ -63,8 +63,8 @@ namespace ConnpassReportGenerator.Test
             public static void パスからプロパティの値を吊り上げる(string path, string ExpectedValue)
             {
                 var templateEngine = new ArticleTemplateEngine();
-                var propertyInfo = templateEngine.AsDynamic().GetPropertyFromIdentify(path, DemoData()) as string;
-                Assert.NotNull(propertyInfo);
+                var tags = ArticleTemplateEngine.IdentifyList(path);
+                var propertyInfo = ArticleTemplateEngine.GetPropertyFromIdentify(tags, DemoData());
                 Assert.AreEqual(ExpectedValue, propertyInfo);
             }
         }
