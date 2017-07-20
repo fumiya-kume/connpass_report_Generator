@@ -1,13 +1,8 @@
 ﻿using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using ConnpassReportGenerator.Model;
-using System.Text;
-using System.Threading.Tasks;
 using ConnpassReportGenerator.Translator;
-using System.Text.RegularExpressions;
-using System.Reflection;
 
 namespace ConnpassReportGenerator.Test
 {

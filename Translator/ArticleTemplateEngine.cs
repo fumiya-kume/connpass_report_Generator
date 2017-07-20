@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace ConnpassReportGenerator.Translator
@@ -38,18 +36,9 @@ namespace ConnpassReportGenerator.Translator
             return dataType.GetType().GetProperty(ValuePropertyName)?.GetValue(dataType) as string;
         }
 
-        private List<string> TagStringCollection(string templateText)
-        {
-            var collection = new Regex(@"\{(.+?)\}").Matches(templateText);
-            var Tags = new List<string>();
-            for (int i = 0; i < collection.Count; i++)
-            {
-                Tags.Add(collection[i].Value);
-            }
-            return Tags;
-        }
+        private List<string> TagStringCollection(string templateText) => new Regex(@"\{(.+?)\}").Matches(templateText).Cast<Match>().Select(match => match.Value).ToList();
 
-        private List<string> IdentifyList(string TagName) => TagName.Split('.').Select(s => s.Replace(".", "").Replace("{", "").Replace("}", "")).Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
-        
+        private List<string> IdentifyList(string TagName) =>
+            TagName.Split('.').Select(s => s.Replace(".", "").Replace("{", "").Replace("}", "")).Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
     }
 }
