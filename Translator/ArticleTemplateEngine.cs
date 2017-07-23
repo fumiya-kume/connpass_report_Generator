@@ -8,37 +8,37 @@ namespace ConnpassReportGenerator.Translator
     {
         public string ReplaceArticleData<T>(string templateText, T data)
         {
-            if (string.IsNullOrWhiteSpace(templateText) || data == null) return "";
-            var Tags = TagStringCollection(templateText);
+            if (string.IsNullOrWhiteSpace(templateText) || data == null)
+                return string.Empty;
 
-            foreach (var tag in Tags)
-            {
-                var PropertyValue = GetPropertyFromIdentify(tag, data);
-                if (PropertyValue == null) continue;
-                templateText = templateText.Replace($"{tag}", PropertyValue);
-            };
-            return templateText;
+            return TagStringCollection(templateText)
+                .Aggregate(templateText, (processing, tag) =>
+                {
+                    var propertyValue = GetPropertyFromIdentify(IdentifyList(tag), data)?.ToString();
+                    return propertyValue != null ? processing.Replace(tag, propertyValue) : processing;
+                });
         }
 
-        private string GetPropertyFromIdentify<T>(string TagName, T data)
+        internal static object GetPropertyFromIdentify(IEnumerable<string> paths, object data)
         {
-            var dataType = (object)data;
-
-            var PathList = IdentifyList(TagName);
-            var ValuePropertyName = PathList.Last();
-            PathList.RemoveAt(PathList.Count - 1);
-
-            foreach (var path in PathList)
+            if (data == null || paths.Count() == 0)
+                return data;
+            else
             {
-                dataType = dataType.GetType().GetProperty(path)?.GetValue(data);
+                var child = data.GetType().GetProperty(paths.First())?.GetValue(data);
+                return GetPropertyFromIdentify(paths.Skip(1), child);
             }
-
-            return dataType.GetType().GetProperty(ValuePropertyName)?.GetValue(dataType) as string;
         }
 
-        private List<string> TagStringCollection(string templateText) => new Regex(@"\{(.+?)\}").Matches(templateText).Cast<Match>().Select(match => match.Value).ToList();
+        internal static IEnumerable<string> TagStringCollection(string templateText) =>
+            new Regex(@"\{(.+?)\}")
+                .Matches(templateText)
+                .Cast<Match>()
+                .Select(match => match.Value);
 
-        private List<string> IdentifyList(string TagName) =>
-            TagName.Split('.').Select(s => s.Replace(".", "").Replace("{", "").Replace("}", "")).Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
+        internal static IEnumerable<string> IdentifyList(string TagName) =>
+            TagName.Replace("{", string.Empty).Replace("}", string.Empty)
+                .Split('.')
+                .Where(s => !string.IsNullOrWhiteSpace(s));
     }
 }
